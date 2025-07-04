@@ -1,0 +1,44 @@
+sky:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    host: localhost
+    port: 3306
+    database: skytakeout
+    username: root
+    password: root@1234
+
+  redis:
+    host: localhost
+    port: 6379
+    password: 1234
+
+  #阿里云oss配置
+  alioss:
+    endpoint: oss-cn-shenzhen.aliyuncs.com
+    access-key-id: ${ALIBABA_ACCESS_KEY}
+    access-key-secret: ${ALIBABA_SECRET_KEY}
+    bucket-name: ${BUCKET_NAME}
+
+  #微信小程序配置
+  wechat:
+    appid: wx473128301203e6ea
+    secret: 1b9e2de7564e16eb6d19990df22b9bcc
+
+    # 微信支付相关配置---备注：下面的信息用不了。。。
+    mchid : 1561414331
+    mchSerialNo: 4B3B3DC35414AD50B1B755BAF8DE9CC7CF407606
+    privateKeyFilePath: D:\pay\apiclient_key.pem
+    apiV3Key: CZBK51236435wxpay435434323FFDuv3
+    weChatPayCertFilePath: D:\pay\wechatpay_166D96F876F45C7D07CE98952A96EC980368ACFC.pem
+    # 成功回调地址
+    notifyUrl: http://4d5d370a.r15.cpolar.top/notify/paySuccess
+    # 退款回调地址
+    refundNotifyUrl: http://4d5d370a.r15.cpolar.top/notify/refund
+
+  shop:
+    #商铺地址
+    address: 深圳市宝安区创维创新谷
+    #百度地图AK
+    ak: Nwpz7Sx6ysZklNzimzDqNBh9vXrBThF0
+    #配送距离极限--单位：米
+    distance: 5000
