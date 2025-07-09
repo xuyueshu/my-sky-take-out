@@ -7,6 +7,7 @@ import io.jsonwebtoken.Claims;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.util.DigestUtils;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -35,6 +36,14 @@ class MySkyApplicationTests {
         System.out.println(empId);
         System.out.println(time);
         System.out.println(date);
+    }
+
+
+    @Test
+    void md5Password(){
+        String passwd = "123456";
+        passwd = DigestUtils.md5DigestAsHex(passwd.getBytes());
+        System.out.println(passwd);
     }
 
 }

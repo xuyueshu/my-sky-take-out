@@ -44,7 +44,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         // 注册管理端拦截器
         registry.addInterceptor(jwtTokenAdminInterceptor)
                 .addPathPatterns("/admin/**")
-                .excludePathPatterns("admin/employee/login");
+                .excludePathPatterns("/admin/employee/login");
 
         registry.addInterceptor(jwtTokenUserInterceptor)
                 .addPathPatterns("/user/**")
@@ -68,7 +68,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                 .apiInfo(apiInfo)
                 .select()
                 // 扫描控制器所在的包
-                .apis(RequestHandlerSelectors.basePackage("com.zhiyou.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.zhiyou.skyserver.controller"))
                 .paths(PathSelectors.any())
                 .build();
 

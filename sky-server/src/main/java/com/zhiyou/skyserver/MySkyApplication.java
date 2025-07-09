@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Slf4j
 @EnableScheduling               //开启任务调度功能
 @EnableCaching                  //开启缓存注解功能
-@MapperScan("com.zhiyou.mapper")   //指定扫描mapper
+@MapperScan("com.zhiyou.skyserver.mapper")   //指定扫描mapper
 @EnableTransactionManagement    //开启注解方式的事务管理
 @ComponentScan("com.zhiyou") // 指定注册要扫描的包，不指定会默认扫描当前包及子包
 public class MySkyApplication {
