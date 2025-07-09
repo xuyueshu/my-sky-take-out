@@ -1,8 +1,12 @@
 package com.zhiyou.skyserver.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.zhiyou.dto.EmployeeDTO;
 import com.zhiyou.dto.EmployeeLoginDTO;
+import com.zhiyou.dto.EmployeePageQueryDTO;
 import com.zhiyou.entity.Employee;
+import com.zhiyou.skycommon.Result.PageResult;
 import com.zhiyou.skycommon.constant.MessageConstant;
 import com.zhiyou.skycommon.constant.PasswordConstant;
 import com.zhiyou.skycommon.constant.StatusConstant;
@@ -71,5 +75,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         employeeMapper.insert(employee);
 
+    }
+
+    @Override
+    public PageResult<Employee> page(EmployeePageQueryDTO dto) {
+        // 1、设置分页参数
+        PageHelper.startPage(dto.getPage(),dto.getPageSize());
+        // 2、查询数据库，将结果强转为Page
+        Page<Employee> page = employeeMapper.list(dto.getName());
+
+        // 3、封装PageResult并返回
+        return new PageResult<>((int) page.getTotal(),page.getResult());
     }
 }
