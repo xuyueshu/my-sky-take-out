@@ -1,5 +1,6 @@
 package com.zhiyou.service;
 
+import com.zhiyou.dto.EmployeeChangePasswdDTO;
 import com.zhiyou.dto.EmployeeDTO;
 import com.zhiyou.dto.EmployeeLoginDTO;
 import com.zhiyou.dto.EmployeePageQueryDTO;
@@ -14,4 +15,10 @@ public interface EmployeeService {
     PageResult<Employee> page(EmployeePageQueryDTO dto);
 
     void update(EmployeeDTO dto);
+
+    void enableOrDisable(Long id, Integer status);
+
+    Employee getEmploy(Long id);
+
+    void changePassword(EmployeeChangePasswdDTO dto);
 }

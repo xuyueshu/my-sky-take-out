@@ -48,7 +48,7 @@ public class ControllerLogInfoAspect {
 
         try {
             log.info("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-            log.info("当前接口名称：{}，方法名：{},url:{}",apiDoc,methodName,methodPath);
+            log.info("当前请求的接口名称：{}，方法名：{},url:{}",apiDoc,methodName,methodPath);
             log.info("接收到的参数：{}",args);
             // 执行目标方法，并获取结果
             Object result = joinPoint.proceed();
@@ -57,7 +57,7 @@ public class ControllerLogInfoAspect {
             // 将结果返回
             return result;
         } catch (Throwable e) {
-            log.error("{}方法-{}-执行报错：{}",methodName,e.getMessage());
+            log.error("执行报错：{}",e.getMessage());
             log.info("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
             return null;
         }

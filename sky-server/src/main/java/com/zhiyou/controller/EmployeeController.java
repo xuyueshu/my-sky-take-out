@@ -1,5 +1,6 @@
 package com.zhiyou.controller;
 
+import com.zhiyou.dto.EmployeeChangePasswdDTO;
 import com.zhiyou.service.EmployeeService;
 import com.zhiyou.dto.EmployeeDTO;
 import com.zhiyou.dto.EmployeeLoginDTO;
@@ -16,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.zhiyou.Result.Result;
+
+import javax.validation.Valid;
 import java.util.HashMap;
 
 @RestController
@@ -32,21 +35,26 @@ public class EmployeeController {
     @ApiOperation("员工登录")
     @PostMapping ("/login")
     public Result<EmployeeLoginVO> login(@RequestBody EmployeeLoginDTO employeeLoginDTO){
-        // 查询数据库
-        Employee employee = employeeService.login(employeeLoginDTO);
-        // 登录成功后，生成jwt令牌
-        HashMap<String, Object> claims = new HashMap<>();
-        claims.put(JwtClaimsConstant.EMP_ID,employee.getId());
-        String token = JwtUtil.createJWT(jwtProperties.getAdminSecretKey(), jwtProperties.getAdminTtl(), claims);
 
-        // 封装response数据
-        EmployeeLoginVO loginVO = EmployeeLoginVO.builder()
-                .id(employee.getId())
-                .name(employee.getName())
-                .userName(employee.getUsername())
-                .token(token)
-                .build();
-        return Result.success(loginVO);
+        try {
+            // 查询数据库
+            Employee employee = employeeService.login(employeeLoginDTO);
+            // 登录成功后，生成jwt令牌
+            HashMap<String, Object> claims = new HashMap<>();
+            claims.put(JwtClaimsConstant.EMP_ID,employee.getId());
+            String token = JwtUtil.createJWT(jwtProperties.getAdminSecretKey(), jwtProperties.getAdminTtl(), claims);
+
+            // 封装response数据
+            EmployeeLoginVO loginVO = EmployeeLoginVO.builder()
+                    .id(employee.getId())
+                    .name(employee.getName())
+                    .userName(employee.getUsername())
+                    .token(token)
+                    .build();
+            return Result.success(loginVO);
+        } catch (Exception e) {
+            return Result.error(e.getMessage());
+        }
     }
 
     @ApiOperation("新增员工")
@@ -55,6 +63,13 @@ public class EmployeeController {
         log.info("EmployeeController:线程id={}",Thread.currentThread().getId());
         employeeService.addEmp(employeeDTO);
         return Result.success();
+    }
+
+    @ApiOperation("根据id查询员工")
+    @GetMapping("/{id}")
+    public Result<Employee> getEmployee(@PathVariable("id") Long id){
+        Employee employee = employeeService.getEmploy(id);
+        return Result.success(employee);
     }
 
     @ApiOperation("员工分页查询")
@@ -74,5 +89,29 @@ public class EmployeeController {
             return Result.error(e.getMessage());
         }
 
+    }
+    @ApiOperation("启用/禁用员工")
+    @PostMapping("/status/{id}/{status}")
+    public Result enableOrDisable(
+            @PathVariable("id") Long id,
+            @PathVariable("status") Integer status){
+        try {
+            employeeService.enableOrDisable(id,status);
+            return  Result.success();
+        } catch (Exception e) {
+            return Result.error(e.getMessage());
+        }
+    }
+
+    @ApiOperation("修改密码")
+    @PostMapping("/chpasswd")
+    public Result changePassword(@Valid  @RequestBody EmployeeChangePasswdDTO dto){
+
+        try {
+            employeeService.changePassword(dto);
+            return Result.success();
+        } catch (Exception e) {
+            return Result.error(e.getMessage());
+        }
     }
 }

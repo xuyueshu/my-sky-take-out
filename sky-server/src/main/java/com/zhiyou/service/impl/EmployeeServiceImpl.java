@@ -2,6 +2,7 @@ package com.zhiyou.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.zhiyou.dto.EmployeeChangePasswdDTO;
 import com.zhiyou.dto.EmployeeDTO;
 import com.zhiyou.dto.EmployeeLoginDTO;
 import com.zhiyou.dto.EmployeePageQueryDTO;
@@ -104,5 +105,44 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = new Employee();
         BeanUtils.copyProperties(dto,employee);
         employeeMapper.update(employee);
+    }
+
+    @Override
+    public void enableOrDisable(Long id, Integer status) {
+        employeeMapper.updateStatusById(id,status);
+    }
+
+    @Override
+    public Employee getEmploy(Long id) {
+        return employeeMapper.getEmployById(id);
+    }
+
+    @Override
+    public void changePassword(EmployeeChangePasswdDTO dto) {
+
+        Long id = dto.getId();
+        String oldPassword = dto.getOldPassword();
+        String newPassword = dto.getNewPassword();
+
+        // 加密
+         oldPassword = DigestUtils.md5DigestAsHex(oldPassword.getBytes());
+         newPassword = DigestUtils.md5DigestAsHex(newPassword.getBytes());
+
+        // 1、根据id查询员工信息
+        Employee employee = employeeMapper.getEmployById(id);
+        if (employee == null) {
+            throw new AccountNotFoundException(MessageConstant.ACCOUNT_NOT_FOUND);
+        }
+        // 2、将旧密码加密后进行比对
+        if (!oldPassword.equals(employee.getPassword())) {
+            throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
+        }
+
+        Employee newEmp = new Employee();
+        BeanUtils.copyProperties(dto,newEmp);
+        newEmp.setPassword(newPassword);
+
+        // 3、将新密码加密后更新到数据库
+        employeeMapper.update(newEmp);
     }
 }

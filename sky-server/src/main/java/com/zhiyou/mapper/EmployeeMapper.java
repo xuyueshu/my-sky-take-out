@@ -23,4 +23,9 @@ public interface EmployeeMapper {
 
     @Autofill(OperationType.UPDATE)
     void update(Employee dto);
+
+    @Autofill(OperationType.UPDATE)
+    void updateStatusById(@Param("id") Long id, @Param("status") Integer status);
+
+    Employee getEmployById(Long id);
 }
