@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Slf4j
 public class AutoFillAspect {
 
-    @Before("execution(* com.zhiyou.skyserver.mapper.*.*(..)) && @annotation(com.zhiyou.anno.Autofill)" )
+    @Before("execution(* com.zhiyou.mapper.*.*(..)) && @annotation(com.zhiyou.anno.Autofill)" )
     public void autoFill(JoinPoint joinPoint){
         log.info("开始进行公共字段自动填充");
 

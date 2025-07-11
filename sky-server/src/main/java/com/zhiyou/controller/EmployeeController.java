@@ -32,7 +32,6 @@ public class EmployeeController {
     @ApiOperation("员工登录")
     @PostMapping ("/login")
     public Result<EmployeeLoginVO> login(@RequestBody EmployeeLoginDTO employeeLoginDTO){
-        log.info("员工登录:{}",employeeLoginDTO);
         // 查询数据库
         Employee employee = employeeService.login(employeeLoginDTO);
         // 登录成功后，生成jwt令牌
@@ -54,7 +53,6 @@ public class EmployeeController {
     @PostMapping
     public Result addEmp(@RequestBody EmployeeDTO employeeDTO){
         log.info("EmployeeController:线程id={}",Thread.currentThread().getId());
-        log.info("新增员工：{}",employeeDTO);
         employeeService.addEmp(employeeDTO);
         return Result.success();
     }
@@ -62,7 +60,6 @@ public class EmployeeController {
     @ApiOperation("员工分页查询")
     @GetMapping("/page")
     public Result<PageResult<Employee>> page(EmployeePageQueryDTO dto){
-        log.info("员工分页查询：{}",dto);
         PageResult<Employee> pageResult = employeeService.page(dto);
         return Result.success(pageResult);
     }
@@ -70,7 +67,6 @@ public class EmployeeController {
     @ApiOperation("编辑员工信息")
     @PutMapping
     public Result update(@RequestBody EmployeeDTO dto){
-        log.info("编辑员工信息：{}",dto);
         try {
             employeeService.update(dto);
             return Result.success();
